@@ -34,31 +34,19 @@
   align-items: stretch;
   justify-content: center;
 }
-/* ===== Экран 20-1: скролл как на экране 16 ===== */
-#screen-20-1 .screen-layout {
-  height: 100%;
-  overflow: hidden;
-}
-#screen-20-1 .scene {
-  height: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
+/* ===== Экран 20-1: скролл ===== */
 #screen-20-1 .scene-main {
-  flex: 1;
   overflow-y: auto;
-  min-height: 0;
+  max-height: calc(100vh - 220px);
 }
 #screen-20-1 .panel {
-  height: 100%;
   overflow-y: auto;
-  min-height: 0;
+  max-height: calc(100vh - 220px);
 }
-#screen-20-1 .panel::-webkit-scrollbar,
-#screen-20-1 .scene-main::-webkit-scrollbar { width: 5px; }
-#screen-20-1 .panel::-webkit-scrollbar-thumb,
-#screen-20-1 .scene-main::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.4); border-radius: 999px; }
+#screen-20-1 .scene-main::-webkit-scrollbar,
+#screen-20-1 .panel::-webkit-scrollbar { width: 5px; }
+#screen-20-1 .scene-main::-webkit-scrollbar-thumb,
+#screen-20-1 .panel::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.4); border-radius: 999px; }
 
     /* ===== ГЛАВНОЕ МЕНЮ ===== */
 #main-menu-toggle {
