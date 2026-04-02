@@ -1,5 +1,4 @@
-<script>
-  // Глобальное состояние
+ // Глобальное состояние
   const state = {
     networking: 0,
     contacts: 0,
@@ -1431,4 +1430,3 @@ popup.style.pointerEvents = 'none';
     initFinalScreen();
     updateHud();
   });
-</script>
