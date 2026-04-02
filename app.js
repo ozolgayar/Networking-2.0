@@ -1089,7 +1089,6 @@ function setStatus() {
     return;
   }
 
-  // Собираем статус
   var statusLine = role + ' | ' + spec + ' | ' + focus;
   document.getElementById('status-text').textContent = statusLine;
   document.getElementById('status-preview').style.display = 'block';
@@ -1102,16 +1101,12 @@ function setStatus() {
 
   addVisibility(1);
 
-  // Модальное окно
-  var modal = document.createElement('div');
-  modal.className = 'modal active';
-  modal.innerHTML = '<div class="modal-card" style="max-width:360px;"><h3>🎉 Отлично!</h3><p>Теперь человек, увидев твой статус, подумает: «О, вот с этим человеком я хочу быть на связи».</p><p style="background:#f0fdf4; padding:8px 10px; border-radius:8px; font-weight:600; text-align:center; margin-top:8px;">' + statusLine.replace(/</g, '&lt;') + '</p><div class="actions-row" style="margin-top:12px; justify-content:flex-end;"><button class="btn" onclick="this.closest(\'.modal\').remove()">Понятно</button></div></div>';
-  document.body.appendChild(modal);
-  modal.addEventListener('click', function(e) {
-    if (e.target === modal) modal.remove();
-  });
+  // Показываем модалку внутри сцены
+  var overlay = document.getElementById('status-modal');
+  if (overlay) {
+    overlay.classList.add('active');
+  }
 }
-
 function retryStatus() {
   document.getElementById('status-role').value = '';
   document.getElementById('status-spec').value = '';
