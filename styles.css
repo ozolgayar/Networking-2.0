@@ -1713,3 +1713,70 @@ color: #1e293b;
 #screen-20-1 .panel::-webkit-scrollbar { width: 5px; }
 #screen-20-1 .scene-main::-webkit-scrollbar-thumb,
 #screen-20-1 .panel::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.4); border-radius: 999px; }
+/* ===== Экран 21-2: карта мероприятия ===== */
+.venue-obj {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  transition: transform .15s ease, filter .15s ease;
+  z-index: 2;
+}
+.venue-obj:hover {
+  transform: scale(1.12);
+  filter: drop-shadow(0 0 8px rgba(255,255,255,0.4));
+}
+.venue-emoji {
+  font-size: 28px;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  border: 2px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color .3s ease, background .3s ease, box-shadow .3s ease;
+}
+.venue-label {
+  font-size: 10px;
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+  white-space: nowrap;
+}
+.venue-label-sm {
+  font-size: 9px;
+}
+.venue-obj.venue-good .venue-emoji {
+  border-color: #22c55e;
+  background: rgba(34,197,94,0.2);
+  box-shadow: 0 0 16px rgba(34,197,94,0.5);
+}
+.venue-obj.venue-good .venue-label {
+  color: #4ade80;
+  font-weight: 600;
+}
+.venue-obj.venue-bad .venue-emoji {
+  border-color: #ef4444;
+  background: rgba(239,68,68,0.2);
+  box-shadow: 0 0 16px rgba(239,68,68,0.5);
+}
+.venue-obj.venue-bad .venue-label {
+  color: #fca5a5;
+  font-weight: 600;
+}
+
+#screen-21-2 .scene-main {
+  overflow-y: auto;
+  max-height: calc(100vh - 220px);
+}
+#screen-21-2 .panel {
+  overflow-y: auto;
+  max-height: calc(100vh - 220px);
+}
+#screen-21-2 .scene-main::-webkit-scrollbar,
+#screen-21-2 .panel::-webkit-scrollbar { width: 5px; }
+#screen-21-2 .scene-main::-webkit-scrollbar-thumb,
+#screen-21-2 .panel::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.4); border-radius: 999px; }
