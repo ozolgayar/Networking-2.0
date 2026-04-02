@@ -1002,6 +1002,42 @@ function initBizcard() {
     })(keys[k]);
   }
 }
+  // ===== Экран 20–21: повышение узнаваемости =====
+  function initProfileAndSticky() {
+    document.getElementById('btn-profile-done').addEventListener('click', () => {
+      addVisibility(2);
+    });
+
+    const board = document.getElementById('sticky-board');
+    const input = document.getElementById('sticky-input');
+    const addBtn = document.getElementById('btn-sticky-add');
+
+    addBtn.addEventListener('click', () => {
+      const text = input.value.trim();
+      if (!text) return;
+      const sticky = document.createElement('div');
+      sticky.className = 'sticky';
+      sticky.innerHTML = `
+        <div>${text}</div>
+        <div class="sticky-footer">
+          <span style="opacity:0.7;">@you</span>
+          <span class="like-count" data-likes="0">♥ 0</span>
+        </div>
+      `;
+      board.appendChild(sticky);
+      addVisibility(1);
+      input.value = '';
+    });
+
+    board.addEventListener('click', e => {
+      const target = e.target.closest('.like-count');
+      if (!target) return;
+      let likes = parseInt(target.dataset.likes || '0', 10);
+      likes++;
+      target.dataset.likes = String(likes);
+      target.textContent = `♥ ${likes}`;
+    });
+  }
  // ===== Экран 21-1: сумочка нетворкера =====
   function initBag() {
     var items = [
