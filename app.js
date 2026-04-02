@@ -934,7 +934,8 @@ function checkBizcard() {
   addVisibility(1);
   document.getElementById('btn-bizcard-next').style.display = 'inline-flex';
 }
-
+window.checkBizcard = checkBizcard;
+window.showScreen = showScreen;
 function initBizcard() {
   var feedback = document.getElementById('bc-feedback');
   var currentDrag = null;
