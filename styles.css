@@ -1599,3 +1599,104 @@ color: #1e293b;
 }
 .bizcard-feedback.ok { color: #16a34a; }
 .bizcard-feedback.err { color: #ef4444; }
+/* ===== Экран 20: Выбор фото ===== */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.photo-card {
+  border-radius: 10px;
+  border: 2px solid #e2e8f0;
+  background: #ffffff;
+  cursor: pointer;
+  transition: transform .15s ease, border-color .15s ease, opacity .3s ease;
+  overflow: hidden;
+  position: relative;
+}
+.photo-card:hover {
+  transform: translateY(-2px);
+}
+.photo-card.selected {
+  border-color: #3b82f6;
+  transform: scale(1.03);
+}
+.photo-card.correct {
+  border-color: #22c55e;
+  box-shadow: 0 0 16px rgba(34,197,94,0.4);
+}
+.photo-card.wrong {
+  border-color: #ef4444;
+  animation: shake .4s ease;
+}
+.photo-card.dimmed {
+  opacity: 0.35;
+  pointer-events: none;
+}
+.photo-placeholder {
+  aspect-ratio: 4/3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8px;
+  font-size: 11px;
+  color: var(--text-soft);
+  gap: 4px;
+}
+.photo-placeholder .ph-emoji {
+  font-size: 28px;
+}
+.photo-placeholder .ph-desc {
+  font-size: 10px;
+  line-height: 1.3;
+  color: #94a3b8;
+}
+.photo-label {
+  padding: 4px 6px;
+  font-size: 11px;
+  color: var(--text);
+  text-align: center;
+  border-top: 1px solid #f1f5f9;
+  background: #f8fafc;
+}
+.photo-feedback {
+  font-size: 12px;
+  min-height: 16px;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+.photo-feedback.ok { color: #16a34a; }
+.photo-feedback.err { color: #ef4444; }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
+@keyframes floatUp {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-40px); }
+}
+.float-bonus {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  font-weight: 700;
+  color: #22c55e;
+  pointer-events: none;
+  animation: floatUp 1.5s ease forwards;
+  white-space: nowrap;
+}
+
+#screen-20 .panel {
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+}
+#screen-20 .panel::-webkit-scrollbar { width: 5px; }
+#screen-20 .panel::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.4); border-radius: 999px; }
