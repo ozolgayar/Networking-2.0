@@ -1289,7 +1289,7 @@
             <div>
               <label style="font-size:11px; font-weight:600; color:var(--text-soft);">Фокус / Интерес</label>
               <input type="text" id="status-focus" placeholder="Например: Редкие заболевания, GMP" class="bc-field" style="margin-top:2px;">
-            </div>
+                        </div>
           </div>
         </div>
 
@@ -1359,6 +1359,16 @@
         <li>Укажи конкретный фокус/интерес</li>
       </ol>
       <p>Нажми «Установить статус» — и увидишь, как он будет выглядеть.</p>
+        <!-- Модалка статуса -->
+        <div class="modal-overlay" id="status-modal">
+          <div class="modal">
+            <h3>🎉 Отлично!</h3>
+            <p>Теперь человек, увидев твой статус, подумает: «О, вот с этим человеком я хочу быть на связи».</p>
+            <div class="actions-row" style="margin-top:10px; justify-content:flex-end;">
+              <button class="btn" onclick="document.getElementById('status-modal').classList.remove('active')">Понятно</button>
+            </div>
+          </div>
+        </div>
     </div>
   </div>
 </div>
