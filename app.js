@@ -1076,6 +1076,56 @@ function checkPhoto() {
 }
 
 window.checkPhoto = checkPhoto;
+// ===== Экран 20-1: статус профиля =====
+function setStatus() {
+  var role = document.getElementById('status-role').value.trim();
+  var spec = document.getElementById('status-spec').value.trim();
+  var focus = document.getElementById('status-focus').value.trim();
+  var fb = document.getElementById('status-feedback');
+
+  if (!role || !spec || !focus) {
+    fb.textContent = 'Заполни все поля, чтобы установить статус.';
+    fb.style.color = '#ef4444';
+    return;
+  }
+
+  // Собираем статус
+  var statusLine = role + ' | ' + spec + ' | ' + focus;
+  document.getElementById('status-text').textContent = statusLine;
+  document.getElementById('status-preview').style.display = 'block';
+  document.getElementById('status-form').style.display = 'none';
+  fb.textContent = '';
+
+  document.getElementById('btn-status-set').style.display = 'none';
+  document.getElementById('btn-status-retry').style.display = 'inline-flex';
+  document.getElementById('btn-status-next').style.display = 'inline-flex';
+
+  addVisibility(1);
+
+  // Модальное окно
+  var modal = document.createElement('div');
+  modal.className = 'modal active';
+  modal.innerHTML = '<div class="modal-card" style="max-width:360px;"><h3>🎉 Отлично!</h3><p>Теперь человек, увидев твой статус, подумает: «О, вот с этим человеком я хочу быть на связи».</p><p style="background:#f0fdf4; padding:8px 10px; border-radius:8px; font-weight:600; text-align:center; margin-top:8px;">' + statusLine.replace(/</g, '&lt;') + '</p><div class="actions-row" style="margin-top:12px; justify-content:flex-end;"><button class="btn" onclick="this.closest(\'.modal\').remove()">Понятно</button></div></div>';
+  document.body.appendChild(modal);
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) modal.remove();
+  });
+}
+
+function retryStatus() {
+  document.getElementById('status-role').value = '';
+  document.getElementById('status-spec').value = '';
+  document.getElementById('status-focus').value = '';
+  document.getElementById('status-preview').style.display = 'none';
+  document.getElementById('status-form').style.display = 'block';
+  document.getElementById('status-feedback').textContent = '';
+  document.getElementById('btn-status-set').style.display = 'inline-flex';
+  document.getElementById('btn-status-retry').style.display = 'none';
+  document.getElementById('btn-status-next').style.display = 'none';
+}
+
+window.setStatus = setStatus;
+window.retryStatus = retryStatus;
   // ===== Экран 20–21: повышение узнаваемости =====
   // ===== Supabase =====
 var SUPABASE_URL = 'https://hdzelembnsoejijvlhzj.supabase.co';
