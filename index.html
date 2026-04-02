@@ -1214,9 +1214,8 @@
         <div class="actions-row">
           <button class="btn secondary nav-back" data-prev>Назад</button>
           <button class="btn" id="btn-photo-check" onclick="window.checkPhoto()">Проверить</button>
-          <button class="btn" id="btn-photo-next" style="display:none;" onclick="showScreen('screen-21')">Далее →</button>
+          <button class="btn" id="btn-photo-next" style="display:none;" onclick="showScreen('screen-20-1')">Далее →</button>
         </div>
-
       </div>
     </div>
     <div class="panel">
@@ -1248,7 +1247,120 @@
     </div>
   </div>
 </div>
+<!-- Экран 20-1. Статус профиля -->
+<div class="screen" id="screen-20-1">
+  <div class="screen-layout">
+    <div class="scene">
+      <div class="scene-header">
+        <span class="tagline">Экран 20.1 • Статус профиля</span>
+      </div>
+      <div class="scene-main" style="flex-direction:column; align-items:stretch; padding:12px; gap:10px; overflow-y:auto;">
 
+        <!-- Верное фото с экрана 20 -->
+        <div style="display:flex; justify-content:center;">
+          <div style="width:160px; border-radius:12px; border:2px solid #22c55e; overflow:hidden; box-shadow:0 2px 12px rgba(34,197,94,0.15);">
+            <div style="aspect-ratio:4/3; background:linear-gradient(135deg,#e0f2fe,#bfdbfe); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:8px; gap:4px;">
+              <span style="font-size:32px;">👩‍💼</span>
+              <span style="font-size:9px; color:#64748b;">Портрет по плечи, нейтральный фон, деловая одежда</span>
+            </div>
+            <div style="padding:4px 6px; font-size:10px; text-align:center; background:#f0fdf4; color:#16a34a; font-weight:600;">✅ Выбрано</div>
+          </div>
+        </div>
+
+        <!-- Статус -->
+        <div style="font-size:14px; font-weight:600; color:var(--text);">📝 Твой статус</div>
+
+        <div id="status-preview" style="display:none; background:linear-gradient(135deg,#f0fdf4,#dcfce7); border:1px solid rgba(34,197,94,0.3); border-radius:10px; padding:10px 12px; text-align:center;">
+          <div style="font-size:10px; color:#16a34a; font-weight:600; margin-bottom:4px;">СТАТУС</div>
+          <div id="status-text" style="font-size:14px; font-weight:600; color:var(--text); line-height:1.4;"></div>
+        </div>
+
+        <div id="status-form">
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div>
+              <label style="font-size:11px; font-weight:600; color:var(--text-soft);">Роль / Сфера</label>
+              <input type="text" id="status-role" placeholder="Например: Специалист по качеству в клинических исследованиях" class="bc-field" style="margin-top:2px;">
+            </div>
+            <div>
+              <label style="font-size:11px; font-weight:600; color:var(--text-soft);">Специализация</label>
+              <input type="text" id="status-spec" placeholder="Например: Аудиты, SOP, инспекции" class="bc-field" style="margin-top:2px;">
+            </div>
+            <div>
+              <label style="font-size:11px; font-weight:600; color:var(--text-soft);">Фокус / Интерес</label>
+              <input type="text" id="status-focus" placeholder="Например: Редкие заболевания, GMP" class="bc-field" style="margin-top:2px;">
+            </div>
+          </div>
+        </div>
+
+        <div id="status-feedback" style="font-size:12px; min-height:16px;"></div>
+
+        <div class="actions-row">
+          <button class="btn secondary nav-back" data-prev>Назад</button>
+          <button class="btn" id="btn-status-set" onclick="window.setStatus()">Установить статус</button>
+          <button class="btn secondary" id="btn-status-retry" style="display:none;" onclick="window.retryStatus()">Ещё раз</button>
+          <button class="btn" id="btn-status-next" style="display:none;" onclick="showScreen('screen-21')">Далее →</button>
+        </div>
+
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-tag">Теория</div>
+      <h2>Статус в соцсети</h2>
+      <p>Статус — это твой мини-бейдж в мире нетворкинга. По нему человек за 1–2 секунды решает:</p>
+      <ul>
+        <li>кто ты по роли</li>
+        <li>к какой «полочке» тебя отнести</li>
+        <li>с какими вопросами к тебе можно обратиться</li>
+      </ul>
+
+      <h3 style="margin-top:8px;">Статус помогает:</h3>
+      <p><strong>Быть понятным</strong> — у человека не возникает вопроса: «А что он/она вообще делает?»</p>
+      <p><strong>Привлекать «своих» людей</strong> — если ты обозначаешь сферу и интерес, к тебе чаще приходят с релевантными предложениями.</p>
+      <p><strong>Стать «находкой» в нужный момент</strong> — кто-то думает: «Нужен человек, который шарит в фарме» и, увидев твой статус, думает: «О, вот оно!»</p>
+
+      <h3 style="margin-top:8px;">Главное правило</h3>
+      <p>Статус — не пафос, а <strong>«подсказка, кто ты и чем полезен»</strong>.</p>
+
+      <p><strong>Плохие варианты:</strong></p>
+      <ul>
+        <li>«Профессионал своего дела»</li>
+        <li>«Ищу себя»</li>
+        <li>«Work hard, dream big»</li>
+      </ul>
+      <p style="font-size:11px; color:var(--text-soft);">Это ничего не говорит о том, чем ты реально занимаешься.</p>
+
+      <h3 style="margin-top:8px;">Из чего состоит хороший статус</h3>
+      <p><strong>Роль + Сфера/Контекст + Фокус/Интерес</strong></p>
+
+      <p><strong>Примеры:</strong></p>
+      <ul>
+        <li>«Специалист по качеству в клинических исследованиях»</li>
+        <li>«Регистрационный менеджер в фарме»</li>
+        <li>«Специалист по качеству в клинике | Аудиты, SOP, инспекции»</li>
+        <li>«Помогаю запускать клинические исследования по GCP»</li>
+        <li>«Помогаю выводить фармпрепараты на рынок РФ и ЕАЭС»</li>
+      </ul>
+
+      <h3 style="margin-top:8px;">Алгоритм</h3>
+      <p>Представь, что тебя спрашивают: «Ты в фарме/медицине чем занимаешься?» и нужно ответить одним предложением.</p>
+      <ul>
+        <li>Кем ты работаешь сейчас? (должность/роль)</li>
+        <li>В какой области? (клиника, качество, регистрация, производство, R&D, маркетинг)</li>
+        <li>Есть ли конкретный фокус? (редкие заболевания, цифровые решения, GMP)</li>
+      </ul>
+
+      <hr style="border:none; border-top:1px dashed #cbd5e1; margin:12px 0;">
+      <h2>Задание: Придумай свой статус</h2>
+      <p>Заполни три поля слева:</p>
+      <ol>
+        <li>Напиши свою роль и сферу</li>
+        <li>Добавь специализацию</li>
+        <li>Укажи конкретный фокус/интерес</li>
+      </ol>
+      <p>Нажми «Установить статус» — и увидишь, как он будет выглядеть.</p>
+    </div>
+  </div>
+</div>
       <!-- Экран 21. Онлайн доска -->
       <div class="screen" id="screen-21">
        
