@@ -1328,8 +1328,8 @@ function initProfileAndSticky() {
       if (e.target === modal) modal.classList.remove('active');
     });
 
-    btnGo.addEventListener('click', function() {
-      showScreen('screen-22');
+  btnGo.addEventListener('click', function() {
+      showScreen('screen-21-2');
     });
   }
   // ===== Экран 22–23: персонажи конференции =====
