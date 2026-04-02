@@ -34,20 +34,6 @@
   align-items: stretch;
   justify-content: center;
 }
-/* ===== Экран 20-1: скролл ===== */
-#screen-20-1 .scene-main {
-  overflow-y: auto;
-  max-height: calc(100vh - 220px);
-}
-#screen-20-1 .panel {
-  overflow-y: auto;
-  max-height: calc(100vh - 220px);
-}
-#screen-20-1 .scene-main::-webkit-scrollbar,
-#screen-20-1 .panel::-webkit-scrollbar { width: 5px; }
-#screen-20-1 .scene-main::-webkit-scrollbar-thumb,
-#screen-20-1 .panel::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.4); border-radius: 999px; }
-
     /* ===== ГЛАВНОЕ МЕНЮ ===== */
 #main-menu-toggle {
   position: fixed;
@@ -1702,3 +1688,17 @@ color: #1e293b;
 }
 #screen-20 .panel::-webkit-scrollbar { width: 5px; }
 #screen-20 .panel::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.4); border-radius: 999px; }
+
+/* ===== Экран 20-1: скролл ===== */
+#screen-20-1 .scene-main {
+  overflow-y: auto;
+  max-height: calc(100vh - 220px);
+}
+#screen-20-1 .panel {
+  overflow-y: auto;
+  max-height: calc(100vh - 220px);
+}
+#screen-20-1 .scene-main::-webkit-scrollbar,
+#screen-20-1 .panel::-webkit-scrollbar { width: 5px; }
+#screen-20-1 .scene-main::-webkit-scrollbar-thumb,
+#screen-20-1 .panel::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.4); border-radius: 999px; }
