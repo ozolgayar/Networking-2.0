@@ -887,117 +887,92 @@ popup.style.pointerEvents = 'none';
 function initBizcard() {
   var feedback = document.getElementById('bc-feedback');
   var template = document.getElementById('bc-template');
-  var btnCheck = document.getElementById('btn-bc-check');
-  var btnNext = document.getElementById('btn-bc-next');
+  var btnCheck = document.getElementById('btn-bc-check-19');
+  var btnNext = document.getElementById('btn-bc-next-19');
+  var draggedEl = null;
+  var bizcardDone = false;
 
   var zones = {
-    logo:  { el: document.getElementById('bc-zone-logo'),  filled: false, emoji: '🏢', ok: '✅ Логотип помогает понять, откуда ты.' },
-    qr:    { el: document.getElementById('bc-zone-qr'),    filled: false, emoji: '📱', ok: '✅ Человек сможет быстро перейти к твоему блогу.' },
-    photo: { el: document.getElementById('bc-zone-photo'), filled: false, emoji: '📸', ok: '✅ Так человеку будет легче тебя запомнить.' }
+    logo:  { el: document.getElementById('bc-zone-logo'),  filled: false, emoji: '🏢', ok: '✅ Верно! Логотип компании помогает человеку быстро понять, откуда ты.' },
+    qr:    { el: document.getElementById('bc-zone-qr'),    filled: false, emoji: '📱', ok: '✅ Верно! Человек сможет быстро перейти к твоему блогу.' },
+    photo: { el: document.getElementById('bc-zone-photo'), filled: false, emoji: '📸', ok: '✅ Верно! Так человеку будет легче тебя запомнить.' }
   };
 
-  var draggedEl = null;
+  function showFeedback(text, isOk) {
+    feedback.textContent = text;
+    feedback.className = 'bizcard-feedback ' + (isOk ? 'ok' : 'err');
+  }
 
-  // Drag start/end на элементах
-  document.querySelectorAll('#bc-drag-panel .drag-el').forEach(function(el) {
-    el.addEventListener('dragstart', function(e) {
-      draggedEl = el;
-      el.style.opacity = '0.5';
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.setData('text/plain', el.dataset.el);
-    });
-    el.addEventListener('dragend', function() {
-      el.style.opacity = '';
-      draggedEl = null;
+  // Drag start
+  document.addEventListener('dragstart', function(e) {
+    var el = e.target.closest && e.target.closest('.drag-el');
+    if (!el) return;
+    draggedEl = el;
+    el.style.opacity = '0.5';
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', el.dataset.el || '');
+  });
+
+  document.addEventListener('dragend', function(e) {
+    var el = e.target.closest && e.target.closest('.drag-el');
+    if (el) el.style.opacity = '';
+    draggedEl = null;
+    Object.keys(zones).forEach(function(k) {
+      zones[k].el.classList.remove('drag-over');
     });
   });
 
-  // Настраиваем каждую drop-зону
-  Object.keys(zones).forEach(function(key) {
+  function setupZone(key) {
     var z = zones[key];
-
     z.el.addEventListener('dragover', function(e) {
       e.preventDefault();
       e.dataTransfer.dropEffect = 'move';
       z.el.classList.add('drag-over');
     });
-
     z.el.addEventListener('dragleave', function() {
       z.el.classList.remove('drag-over');
     });
-
     z.el.addEventListener('drop', function(e) {
       e.preventDefault();
       e.stopPropagation();
       z.el.classList.remove('drag-over');
       if (!draggedEl) return;
-
       var elType = draggedEl.dataset.el;
 
-      // «Список сертификатов» — всегда отклоняем
       if (elType === 'certs') {
         z.el.classList.add('error-flash');
         setTimeout(function() { z.el.classList.remove('error-flash'); }, 800);
-        feedback.textContent = '❌ Список сертификатов лучше оставить за пределами визитки. Визитка — подсказка, а не каталог.';
-        feedback.className = 'bizcard-feedback err';
+        showFeedback('❌ Этот элемент лучше оставить за пределами визитки. Помни: визитка — это подсказка, а не каталог всего о тебе.', false);
         return;
       }
 
-      // Правильная зона
       if (elType === key) {
         z.filled = true;
         z.el.classList.add('filled');
         z.el.textContent = z.emoji;
         draggedEl.classList.add('placed');
-        feedback.textContent = z.ok;
-        feedback.className = 'bizcard-feedback ok';
+        showFeedback(z.ok, true);
       } else {
-        // Не та зона
         z.el.classList.add('error-flash');
         setTimeout(function() { z.el.classList.remove('error-flash'); }, 800);
-        feedback.textContent = 'Это место не подходит. Попробуй ещё раз.';
-        feedback.className = 'bizcard-feedback err';
-      }
-    });
-  });
-
-  // Зона для сертификатов — отдельно (всегда отклоняет)
-  var certsZone = document.getElementById('bc-zone-certs');
-  if (certsZone) {
-    certsZone.addEventListener('dragover', function(e) {
-      e.preventDefault();
-      certsZone.classList.add('drag-over');
-    });
-    certsZone.addEventListener('dragleave', function() {
-      certsZone.classList.remove('drag-over');
-    });
-    certsZone.addEventListener('drop', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      certsZone.classList.remove('drag-over');
-      if (!draggedEl) return;
-
-      var elType = draggedEl.dataset.el;
-      if (elType === 'certs') {
-        certsZone.classList.add('error-flash');
-        setTimeout(function() { certsZone.classList.remove('error-flash'); }, 800);
-        feedback.textContent = '❌ Список сертификатов лучше оставить за пределами визитки. Визитка — подсказка, а не каталог.';
-        feedback.className = 'bizcard-feedback err';
-      } else {
-        certsZone.classList.add('error-flash');
-        setTimeout(function() { certsZone.classList.remove('error-flash'); }, 800);
-        feedback.textContent = 'Это место не подходит. Попробуй ещё раз.';
-        feedback.className = 'bizcard-feedback err';
+        showFeedback('Это место не подходит. Попробуй ещё раз.', false);
       }
     });
   }
 
-  // Кнопка «Проверить»
+  Object.keys(zones).forEach(setupZone);
+
+  // Кнопка Далее
+  btnNext.addEventListener('click', function() {
+    showScreen('screen-20');
+  });
+
+  // Кнопка Проверить
   btnCheck.addEventListener('click', function(e) {
     e.preventDefault();
     e.stopPropagation();
+    if (bizcardDone) return;
 
-    // Проверяем текстовые поля
     var fields = document.querySelectorAll('#bc-template .bc-field');
     var allFieldsFilled = true;
     fields.forEach(function(f) {
@@ -1009,72 +984,29 @@ function initBizcard() {
     });
 
     if (!allFieldsFilled) {
-      feedback.textContent = 'Заполни все поля, чтобы визитка работала.';
-      feedback.className = 'bizcard-feedback err';
+      showFeedback('Заполни все поля, чтобы визитка работала.', false);
       return;
     }
 
-    // Проверяем логотип
     if (!zones.logo.filled) {
       zones.logo.el.classList.add('error-flash');
       setTimeout(function() { zones.logo.el.classList.remove('error-flash'); }, 800);
-      feedback.textContent = 'Не забудь добавить логотип компании.';
-      feedback.className = 'bizcard-feedback err';
+      showFeedback('Не забудь добавить логотип компании.', false);
       return;
     }
 
-    // Проверяем остальные элементы
-    var allZonesFilled = zones.logo.filled && zones.qr.filled && zones.photo.filled;
-    if (!allZonesFilled) {
-      feedback.textContent = 'Визитка ещё не готова! Перетащи все нужные элементы на свои места.';
-      feedback.className = 'bizcard-feedback err';
+    if (!zones.qr.filled || !zones.photo.filled) {
+      showFeedback('Визитка ещё не готова! Перетащи все нужные элементы на свои места.', false);
       return;
     }
 
-    // Всё заполнено!
+    bizcardDone = true;
     template.classList.add('celebrate');
-    feedback.textContent = '🎉 Отлично! Твоя визитка готова.';
-    feedback.className = 'bizcard-feedback ok';
+    showFeedback('🎉 Отлично! Твоя визитка готова.', true);
     addVisibility(1);
     btnNext.style.display = 'inline-flex';
   });
 }
-  // ===== Экран 20–21: повышение узнаваемости =====
-  function initProfileAndSticky() {
-    document.getElementById('btn-profile-done').addEventListener('click', () => {
-      addVisibility(2);
-    });
-
-    const board = document.getElementById('sticky-board');
-    const input = document.getElementById('sticky-input');
-    const addBtn = document.getElementById('btn-sticky-add');
-
-    addBtn.addEventListener('click', () => {
-      const text = input.value.trim();
-      if (!text) return;
-      const sticky = document.createElement('div');
-      sticky.className = 'sticky';
-      sticky.innerHTML = `
-        <div>${text}</div>
-        <div class="sticky-footer">
-          <span style="opacity:0.7;">@you</span>
-          <span class="like-count" data-likes="0">♥ 0</span>
-        </div>
-      `;
-      board.appendChild(sticky);
-      addVisibility(1);
-      input.value = '';
-    });
-
-    board.addEventListener('click', e => {
-      const target = e.target.closest('.like-count');
-      if (!target) return;
-      let likes = parseInt(target.dataset.likes || '0', 10);
-      likes++;
-      target.dataset.likes = String(likes);
-      target.textContent = `♥ ${likes}`;
-    });
-  }
  // ===== Экран 21-1: сумочка нетворкера =====
   function initBag() {
     var items = [
