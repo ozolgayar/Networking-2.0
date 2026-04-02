@@ -1155,46 +1155,97 @@
     </div>
   </div>
 </div>
-      <!-- Экран 20. Редактор профиля -->
-      <div class="screen" id="screen-20">
-       
-        <div class="screen-layout">
-          <div class="scene">
-            <div class="scene-header">
-              <span class="tagline">Экран 20 • Редактор профиля</span>
+      <!-- Экран 20. Фото для профиля -->
+<div class="screen" id="screen-20">
+  <div class="screen-layout">
+    <div class="panel" style="order:1;">
+      <div class="panel-tag">Теория</div>
+      <h2>Аватарка для профиля</h2>
+      <p>Аватарка — это первое рукопожатие онлайн. Ещё до того, как человек прочитает статус, он уже что-то решил по фото.</p>
+      <p>Онлайн-профиль без хорошей фотографии:</p>
+      <ul>
+        <li>вызывает меньше доверия</li>
+        <li>реже получает ответы</li>
+        <li>хуже запоминается после встречи</li>
+      </ul>
+      <h3 style="margin-top:8px;">Принципы хорошей аватарки</h3>
+      <p><strong>1. Лицо — главный герой.</strong> Кадр по плечи или по грудь, смотрим в камеру.</p>
+      <p><strong>2. Чистый фон.</strong> Однотонная стена, размытый офис. Без бардака и толпы людей.</p>
+      <p><strong>3. Хороший свет.</strong> Естественный свет от окна, без резких теней.</p>
+      <p><strong>4. Одежда как на встрече.</strong> Чистая, аккуратная, спокойные цвета.</p>
+      <p><strong>5. Живое выражение лица.</strong> Лёгкая улыбка, доброжелательный взгляд.</p>
+      <h3 style="margin-top:8px;">Главные вопросы к фото:</h3>
+      <ul>
+        <li>Похожа ли ты на себя в реальной жизни?</li>
+        <li>Хочется ли с тобой заговорить, глядя на это фото?</li>
+      </ul>
+    </div>
+    <div class="scene" style="order:2;">
+      <div class="scene-header">
+        <span class="tagline">Экран 20 • Фото профиля</span>
+      </div>
+      <div class="scene-main" style="flex-direction:column; align-items:stretch; padding:10px; gap:8px; overflow-y:auto;">
+
+        <h2 style="font-size:16px;">Выбери фото для профиля Златы</h2>
+        <p style="font-size:12px; color:var(--text-soft);">Перед тобой 6 фотографий. Выбери ту, которая лучше всего подходит для профессионального профиля.</p>
+
+        <div class="photo-grid" id="photo-grid">
+          <div class="photo-card" data-photo="1">
+            <div class="photo-placeholder" style="background:linear-gradient(135deg,#e0f2fe,#bfdbfe);">
+              <span class="ph-emoji">👩‍💼</span>
+              <span class="ph-desc">Портрет по плечи, нейтральный фон, деловая одежда, улыбка, хороший свет</span>
             </div>
-            <div class="scene-main">
-              <div class="fake-illustration">
-                Экран социальной сети с профилем Златы.
-              </div>
-            </div>
+            <div class="photo-label">Фото 1: Портрет в офисе</div>
           </div>
-          <div class="panel">
-            <div class="panel-tag">Теория</div>
-            <h2>Редактор профиля</h2>
-            <p>
-              Задание 1. Выбери фото для профиля.
-            </p>
-            <p class="note">
-              В прототипе выбор фото условный (в полноценной версии — выбор из картинок).
-              +1 к узнаваемости.
-            </p>
-            <p style="margin-top: 8px;">
-              Задание 2. Придумай статус профиля.
-            </p>
-            <div>
-              <div class="field-label">Твой статус</div>
-              <input type="text" id="profile-status" placeholder="Например: «Помогаю брендам находить свой голос»">
+          <div class="photo-card" data-photo="2">
+            <div class="photo-placeholder" style="background:linear-gradient(135deg,#f1f5f9,#cbd5e1);">
+              <span class="ph-emoji">🤳</span>
+              <span class="ph-desc">Селфи в зеркале лифта, телефон закрывает лицо, тусклый свет</span>
             </div>
-            <p class="note">
-              За заполнение статуса — ещё +1 к узнаваемости.
-            </p>
-            <div class="actions-row">
-              <button class="btn" id="btn-profile-done" data-next="screen-21">Готово</button>
+            <div class="photo-label">Фото 2: Селфи в лифте</div>
+          </div>
+          <div class="photo-card" data-photo="3">
+            <div class="photo-placeholder" style="background:linear-gradient(135deg,#fef3c7,#fde68a);">
+              <span class="ph-emoji">🥂</span>
+              <span class="ph-desc">С бокалом, шарики и гирлянды, весёлое лицо</span>
             </div>
+            <div class="photo-label">Фото 3: С корпоратива</div>
+          </div>
+          <div class="photo-card" data-photo="4">
+            <div class="photo-placeholder" style="background:linear-gradient(135deg,#ede9fe,#c4b5fd);">
+              <span class="ph-emoji">👥👥👥</span>
+              <span class="ph-desc">Пять человек в ряд, непонятно кто Злата</span>
+            </div>
+            <div class="photo-label">Фото 4: Командное фото</div>
+          </div>
+          <div class="photo-card" data-photo="5">
+            <div class="photo-placeholder" style="background:linear-gradient(135deg,#ccfbf1,#5eead4);">
+              <span class="ph-emoji">🏖️</span>
+              <span class="ph-desc">Солнечные очки, купальник, море, коктейль</span>
+            </div>
+            <div class="photo-label">Фото 5: С отпуска</div>
+          </div>
+          <div class="photo-card" data-photo="6">
+            <div class="photo-placeholder" style="background:linear-gradient(135deg,#1e293b,#334155); color:#94a3b8;">
+              <span class="ph-emoji">🌑</span>
+              <span class="ph-desc" style="color:#64748b;">Почти не видно лица, тёмный фон, размытое, вспышка</span>
+            </div>
+            <div class="photo-label">Фото 6: Вечернее фото</div>
           </div>
         </div>
+
+        <div class="photo-feedback" id="photo-feedback"></div>
+
+        <div class="actions-row">
+          <button class="btn secondary nav-back" data-prev>Назад</button>
+          <button class="btn" id="btn-photo-check" onclick="window.checkPhoto()">Проверить</button>
+          <button class="btn" id="btn-photo-next" style="display:none;" onclick="showScreen('screen-21')">Далее →</button>
+        </div>
+
       </div>
+    </div>
+  </div>
+</div>
 
       <!-- Экран 21. Онлайн доска -->
       <div class="screen" id="screen-21">
