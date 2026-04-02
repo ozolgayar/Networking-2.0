@@ -25,7 +25,7 @@
     'screen-6', 'screen-7', 'screen-8', 'screen-9', 'screen-10',
     'screen-11', 'screen-12', 'screen-13', 'screen-14', 'screen-15',
     'screen-16', 'screen-16-1', 'screen-17', 'screen-18', 'screen-19',
-    'screen-20', 'screen-20-1', 'screen-21', 'screen-21-1', 'screen-22', 'screen-23', 'screen-24',
+    'screen-20', 'screen-20-1', 'screen-21', 'screen-21-1', 'screen-21-2','screen-22', 'screen-23', 'screen-24',
     'screen-25', 'screen-26'
   ];
 
@@ -1672,6 +1672,73 @@ function initProfileAndSticky() {
   showScreen('screen-17');
 });
   }
+// ===== Экран 21-2: карта мероприятия =====
+function initVenueMap() {
+  var objects = [
+    { name:'Ресепшен', good:false, text:'❌ Ловушка! Люди у ресепшена только пришли: они нервничают, оглядываются, ищут знакомых. Если подойти к ним сейчас — они будут рассеяны и быстро уйдут «за напитком» или «поздороваться с кем-то». Ты потратишь энергию впустую. Дай им сначала освоиться.' },
+    { name:'Гардероб', good:false, text:'❌ Ловушка! Гардероб — транзитная зона. Люди снимают пальто, убирают вещи, они ещё не «включились» в мероприятие. Начинать знакомство здесь — как будить спящего: неловко и малоэффективно.' },
+    { name:'Напитки (Бар)', good:true, text:'⭐ Отличное место! Человек с напитком в руке уже расслабился и готов к общению. Встань рядом с баром — и у тебя всегда будет повод начать разговор: «Как вам вино?» или просто «Привет, я Злата…» Люди, которые собирают больше всего контактов, обычно находятся именно здесь.' },
+    { name:'Организатор', good:true, text:'⭐ Золотая точка! Подойди к организатору, поблагодари за приглашение и попроси представить тебя кому-нибудь: «Может, среди гостей есть те, с кем мне стоит познакомиться?» Организатор — твой лучший проводник в мир новых контактов.' },
+    { name:'Место у бара (слева)', good:true, text:'⭐ Стратегическая позиция! Люди выходят от бара с напитком, они расслаблены и открыты. В этой точке ты — первый человек, которого они встречают. Идеально для лёгкого начала разговора.' },
+    { name:'Место у бара (справа)', good:true, text:'⭐ Ещё одна стратегическая позиция! Те же преимущества: люди с напитками, готовые к беседе. Исследования показывают, что нетворкеры, занимающие точки у бара, собирают больше всего контактов за вечер.' },
+    { name:'Еда', good:false, text:'❌ Ловушка! У стола с едой сложно знакомиться: руки заняты тарелкой, неудобно жать руку, кто-то говорит с набитым ртом. Ты мешаешь другим гостям добраться до закусок. И есть риск простоять тут весь вечер, так никого и не встретив.' },
+    { name:'Туалеты', good:false, text:'❌ Ловушка! Сходить — конечно, можно. Но торчать рядом — плохая идея. Это транзитная зона, людям здесь неловко, и вряд ли кто-то хочет знакомиться у двери в туалет.' },
+    { name:'Друзья', good:false, text:'❌ Ловушка! Встав в кружок с друзьями и коллегами, ты почти наверняка проведёшь так весь вечер. Выбраться из уютного круга и пойти знакомиться — невероятно сложно. Лучше помахай друзьям, скажи «скоро вернусь» и иди в зону общения.' }
+  ];
+
+  var found = 0;
+  var revealed = {};
+  var counter = document.getElementById('venue-counter');
+  var modal = document.getElementById('venue-modal');
+  var mTitle = document.getElementById('venue-modal-title');
+  var mText = document.getElementById('venue-modal-text');
+  var mOk = document.getElementById('venue-modal-ok');
+
+  document.querySelectorAll('.venue-obj').forEach(function(el) {
+    el.addEventListener('click', function() {
+      var idx = parseInt(el.dataset.obj);
+      var obj = objects[idx];
+      if (!obj) return;
+
+      // Подсветка
+      if (obj.good) {
+        el.classList.add('venue-good');
+      } else {
+        el.classList.add('venue-bad');
+      }
+
+      // Считаем только новые благоприятные
+      if (obj.good && !revealed[idx]) {
+        revealed[idx] = true;
+        found++;
+        counter.textContent = 'Найдено: ' + found + ' из 4';
+        if (found >= 4) {
+          counter.style.background = 'rgba(34,197,94,0.15)';
+          counter.style.borderColor = 'rgba(34,197,94,0.6)';
+          counter.style.color = '#166534';
+          counter.textContent = 'Найдено: 4 из 4 ✅';
+          document.getElementById('venue-success').style.display = 'block';
+          document.getElementById('venue-lifehack').style.display = 'block';
+          document.getElementById('btn-venue-next').style.display = 'inline-flex';
+          addNetworking(2);
+        }
+      }
+      if (!obj.good) revealed[idx] = true;
+
+      // Модалка
+      mTitle.textContent = (obj.good ? '⭐ ' : '❌ ') + obj.name;
+      mText.textContent = obj.text;
+      modal.classList.add('active');
+    });
+  });
+
+  mOk.addEventListener('click', function() {
+    modal.classList.remove('active');
+  });
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) modal.classList.remove('active');
+  });
+}
    document.addEventListener('DOMContentLoaded', () => {
     initGlobalNav();
     initMainMenu();
@@ -1689,12 +1756,13 @@ function initProfileAndSticky() {
     initWheel();
     initWheelSummary();
     initPeopleDrag();
-    initLocations();      // ← ДОБАВИТЬ
+    initLocations();     
     initGoalHud();
     initPhotoGame();
     initBizcard();
     initProfileAndSticky();
     initBag();
+    initVenueMap();
     initConference();
     initFollowup();
     initCalendar();
