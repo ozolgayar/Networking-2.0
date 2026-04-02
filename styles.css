@@ -34,7 +34,13 @@
   align-items: stretch;
   justify-content: center;
 }
-
+/* ===== Экран 20-1: скролл панели теории ===== */
+#screen-20-1 .panel {
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+}
+#screen-20-1 .panel::-webkit-scrollbar { width: 5px; }
+#screen-20-1 .panel::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.4); border-radius: 999px; }
     #app {
       width: 100%;
       max-width: 1200px;
