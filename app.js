@@ -25,7 +25,7 @@
     'screen-6', 'screen-7', 'screen-8', 'screen-9', 'screen-10',
     'screen-11', 'screen-12', 'screen-13', 'screen-14', 'screen-15',
     'screen-16', 'screen-16-1', 'screen-17', 'screen-18', 'screen-19',
-    'screen-20', 'screen-21', 'screen-21-1', 'screen-22', 'screen-23', 'screen-24',
+    'screen-20', 'screen-20-1', 'screen-21', 'screen-21-1', 'screen-22', 'screen-23', 'screen-24',
     'screen-25', 'screen-26'
   ];
 
