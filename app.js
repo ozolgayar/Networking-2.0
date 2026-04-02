@@ -1003,13 +1003,82 @@ function initBizcard() {
     })(keys[k]);
   }
 }
-  // ===== Экран 20–21: повышение узнаваемости =====
-  function initProfileAndSticky() {
-    document.getElementById('btn-profile-done').addEventListener('click', () => {
-      addVisibility(2);
+// ===== Экран 20: выбор фото =====
+var photoSelected = null;
+var photoDone = false;
+
+var photoFeedbacks = {
+  '2': '❌ Селфи в лифте — слишком неформально. Лицо закрыто телефоном, свет плохой. На профессиональном фото должно быть хорошо видно лицо.',
+  '3': '❌ Фото с бокалом и вечеринки создаёт не тот образ. Для профиля лучше нейтральная, деловая обстановка.',
+  '4': '❌ На групповом фото непонятно, кто ты. Для профиля нужно фото, где ты — единственный герой кадра.',
+  '5': '❌ Пляжное фото — для личного архива. В профессиональном профиле — деловая или нейтральная одежда.',
+  '6': '❌ Лицо почти не видно. Хороший свет — базовое требование. Если тебя не узнать на фото, оно не поможет в нетворкинге.'
+};
+
+function initPhotoGame() {
+  var grid = document.getElementById('photo-grid');
+  if (!grid) return;
+
+  grid.addEventListener('click', function(e) {
+    if (photoDone) return;
+    var card = e.target.closest('.photo-card');
+    if (!card) return;
+
+    grid.querySelectorAll('.photo-card').forEach(function(c) {
+      c.classList.remove('selected', 'wrong');
+    });
+    card.classList.add('selected');
+    photoSelected = card.dataset.photo;
+  });
+}
+
+function checkPhoto() {
+  if (photoDone) return;
+  var fb = document.getElementById('photo-feedback');
+  var grid = document.getElementById('photo-grid');
+
+  if (!photoSelected) {
+    fb.textContent = 'Сначала выбери одну фотографию.';
+    fb.className = 'photo-feedback err';
+    return;
+  }
+
+  var card = grid.querySelector('[data-photo="' + photoSelected + '"]');
+
+  if (photoSelected === '1') {
+    photoDone = true;
+    card.classList.remove('selected');
+    card.classList.add('correct');
+
+    grid.querySelectorAll('.photo-card').forEach(function(c) {
+      if (c.dataset.photo !== '1') c.classList.add('dimmed');
     });
 
-    const board = document.getElementById('sticky-board');
+    var bonus = document.createElement('div');
+    bonus.className = 'float-bonus';
+    bonus.textContent = '+1 🌟 Узнаваемость';
+    card.appendChild(bonus);
+
+    fb.innerHTML = '✅ Верно! Это фото идеально подходит для профиля:<br>• Лицо хорошо видно<br>• Нейтральный фон<br>• Деловая одежда<br>• Естественная улыбка<br>• Хороший свет<br>По такому фото Злату легко узнать и на конференции, и в переписке.';
+    fb.className = 'photo-feedback ok';
+
+    addVisibility(1);
+    document.getElementById('btn-photo-check').style.display = 'none';
+    document.getElementById('btn-photo-next').style.display = 'inline-flex';
+  } else {
+    card.classList.add('wrong');
+    setTimeout(function() { card.classList.remove('wrong'); }, 500);
+
+    var msg = photoFeedbacks[photoSelected] || '❌ Это фото не подходит.';
+    fb.innerHTML = msg + '<br><span style="color:var(--text-soft); font-size:11px;">Попробуй ещё раз!</span>';
+    fb.className = 'photo-feedback err';
+  }
+}
+
+window.checkPhoto = checkPhoto;
+  // ===== Экран 20–21: повышение узнаваемости =====
+  function initProfileAndSticky() {
+        const board = document.getElementById('sticky-board');
     const input = document.getElementById('sticky-input');
     const addBtn = document.getElementById('btn-sticky-add');
 
@@ -1464,6 +1533,7 @@ function initBizcard() {
     initPeopleDrag();
     initLocations();      // ← ДОБАВИТЬ
     initGoalHud();
+    initPhotoGame();
     initBizcard();
     initProfileAndSticky();
     initBag();
