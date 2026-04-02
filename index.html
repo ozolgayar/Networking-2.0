@@ -1053,46 +1053,105 @@
       </div>
 
       <!-- Экран 19. Создание визитки -->
-      <div class="screen" id="screen-19">
-       
-        <div class="screen-layout">
-          <div class="scene">
-            <div class="scene-header">
-              <span class="tagline">Экран 19 • Визитка</span>
-            </div>
-            <div class="scene-main">
-              <div class="fake-illustration">
-                Конструктор визитки: перетаскивание элементов.
-                <div style="position:absolute; inset:15% 10% auto auto; display:flex; flex-direction:column; gap:8px; align-items:flex-start;">
-                  <div class="target-label">Элементы визитки</div>
-                  <div class="people-pool" id="bizcard-elements">
-                    <!-- элементы создаём JS -->
-                  </div>
-                  <div class="target-label" style="margin-top:6px;">Моя визитка</div>
-                  <div class="people-target" id="bizcard-target"></div>
+<div class="screen" id="screen-19">
+  <div class="screen-layout">
+    <div class="scene">
+      <div class="scene-header">
+        <span class="tagline">Экран 19 • Визитка</span>
+      </div>
+      <div class="scene-main" style="flex-direction:column; align-items:stretch; padding:8px; gap:12px;">
+
+        <!-- Твоя визитка -->
+        <div style="font-size:13px; font-weight:600; color:var(--text);">📇 Твоя визитка</div>
+        <div style="display:flex; gap:12px; align-items:flex-start;">
+          <div>
+            <div class="bizcard-template" id="bc-template">
+              <div style="display:flex; gap:10px; align-items:flex-start;">
+                <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+                  <input type="text" id="bc-name" placeholder="Имя и фамилия" class="bc-field">
+                  <input type="text" id="bc-role" placeholder="Должность + сфера" class="bc-field">
+                  <input type="text" id="bc-company" placeholder="Название компании" class="bc-field">
                 </div>
+                <div class="bizcard-drop-zone" id="bc-zone-logo" data-zone="logo">Логотип</div>
+              </div>
+              <textarea id="bc-hint" rows="2" placeholder="Цепляющая подсказка про тебя" class="bc-field"></textarea>
+              <div class="bizcard-row">
+                <input type="text" id="bc-email" placeholder="Email" class="bc-field">
+                <input type="text" id="bc-phone" placeholder="Телефон" class="bc-field">
+              </div>
+              <input type="text" id="bc-profile" placeholder="Профессиональный профиль (один канал)" class="bc-field">
+              <div class="bizcard-row">
+                <div class="bizcard-drop-zone" id="bc-zone-qr" data-zone="qr" style="width:48px;height:48px;">QR</div>
+                <div class="bizcard-drop-zone" id="bc-zone-photo" data-zone="photo" style="width:48px;height:48px;">Фото</div>
+                <div class="bizcard-drop-zone" id="bc-zone-certs" data-zone="certs" style="width:48px;height:48px;">📜</div>
               </div>
             </div>
+
+            <div style="font-size:11px; color:var(--text-soft); margin-top:8px;">Элементы (перетащи на визитку):</div>
+            <div class="drag-elements-panel" id="bc-drag-panel">
+              <div class="drag-el" draggable="true" data-el="logo">🏢 Логотип компании</div>
+              <div class="drag-el" draggable="true" data-el="qr">📱 QR-код на блог</div>
+              <div class="drag-el" draggable="true" data-el="photo">📸 Фото</div>
+              <div class="drag-el" draggable="true" data-el="certs">📜 Список сертификатов</div>
+            </div>
+            <div class="bizcard-feedback" id="bc-feedback"></div>
           </div>
-          <div class="panel">
-            <div class="panel-tag">Теория</div>
-            <h2>Создание визитки</h2>
-            <p>
-              Собери свою визитку: имя, должность, контакты, ключевое сообщение.
-            </p>
-            <p class="note">
-              Перетащи элементы в блок «Моя визитка» в логичном порядке. При корректной сборке:
-              +1 к узнаваемости.
-            </p>
-            <p class="note" id="bizcard-feedback"></p>
-            <div class="actions-row">
-               <button class="btn secondary nav-back" data-prev>Назад</button>
-              <button class="btn" id="btn-bizcard-check">Проверить визитку</button>
-              <button class="btn secondary" id="btn-bizcard-done" data-next="screen-20">Дальше</button>
+
+          <!-- Пример: визитка Златы -->
+          <div>
+            <div style="font-size:11px; color:var(--text-soft); margin-bottom:4px;">Пример: визитка Златы</div>
+            <div class="bizcard-example">
+              <div style="display:flex; gap:8px; align-items:center; margin-bottom:6px;">
+                <div style="width:28px;height:28px;border-radius:6px;background:#22c55e;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;">PC</div>
+                <div>
+                  <div class="bc-name">Злата Фармацевтова</div>
+                  <div class="bc-role">Специалист по качеству в клинических исследованиях</div>
+                </div>
+              </div>
+              <div style="font-size:11px; color:var(--text-soft);">PharmaCorp</div>
+              <div class="bc-hint">«Помогаю проводить клинические исследования по протоколу и без сюрпризов на проверках»</div>
+              <div class="bc-contacts">
+                ✉ zlata.f@pharmacorp.ru<br>
+                📞 +7 (999) 123-45-67<br>
+                🔗 socset.com/zlata-farmatsevtova
+              </div>
+            </div>
+            <div style="font-size:10px; color:var(--text-soft); margin-top:4px; max-width:260px;">
+              Ничего лишнего. Имя, роль, компания, контакты и короткая фраза, по которой тебя запомнят.
             </div>
           </div>
         </div>
+
       </div>
+    </div>
+    <div class="panel">
+      <div class="panel-tag">Теория</div>
+      <h2>Зачем нужна визитка</h2>
+      <p>Многие думают: «Да кому нужны визитки, есть же соцсети». Но в живом общении визитка решает сразу несколько задач:</p>
+      <ul>
+        <li><strong>Закрепляет знакомство</strong> — после десятка разговоров люди забывают имена. Визитка — это якорь.</li>
+        <li><strong>Облегчает продолжение общения</strong> — вместо «Я вам напишу…» можно сказать: «Вот мои контакты».</li>
+        <li><strong>Передаёт профессиональный образ</strong> — кто ты? Чем полезен?</li>
+        <li><strong>Помогает «положить тебя на нужную полочку»</strong> — через пару дней человек вспомнит, кто ты.</li>
+      </ul>
+      <h3 style="margin-top:8px;">Что должно быть на визитке</h3>
+      <p>Визитка отвечает на 3 вопроса: <strong>Кто ты? Чем полезен? Как связаться?</strong></p>
+      <p><strong>1. Имя и фамилия</strong> — крупно и читаемо.</p>
+      <p><strong>2. Должность + сфера</strong> — на человеческом языке.</p>
+      <p><strong>3. Компания</strong> — логотип + название.</p>
+      <p><strong>4. Контакты</strong> — email, телефон, один профессиональный профиль.</p>
+      <p><strong>5. Цепляющая подсказка</strong> — короткая фраза о твоей экспертизе.</p>
+      <p><strong>6. Дизайн</strong> — читаемость важнее красоты. Контрастный фон, нормальный шрифт, «воздух».</p>
+      <h3 style="margin-top:8px;">Задание</h3>
+      <p>Заполни визитку слева, перетащи элементы на нужные места и нажми «Проверить».</p>
+      <div class="actions-row" style="margin-top:auto;">
+        <button class="btn secondary nav-back" data-prev>Назад</button>
+        <button class="btn" id="btn-bc-check">Проверить</button>
+        <button class="btn" id="btn-bc-next" data-next="screen-20" style="display:none;">Далее</button>
+      </div>
+    </div>
+  </div>
+</div>
 
       <!-- Экран 20. Редактор профиля -->
       <div class="screen" id="screen-20">
