@@ -1077,37 +1077,150 @@ function checkPhoto() {
 
 window.checkPhoto = checkPhoto;
   // ===== Экран 20–21: повышение узнаваемости =====
-  function initProfileAndSticky() {
-        const board = document.getElementById('sticky-board');
-    const input = document.getElementById('sticky-input');
-    const addBtn = document.getElementById('btn-sticky-add');
+  // ===== Supabase =====
+var SUPABASE_URL = 'https://hdzelembnsoejijvlhzj.supabase.co';
+var SUPABASE_KEY = 'sb_publishable_y4va7P8-6stuCGq4b55LuQ_rmM3JUD4';
+var supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
-    addBtn.addEventListener('click', () => {
-      const text = input.value.trim();
-      if (!text) return;
-      const sticky = document.createElement('div');
-      sticky.className = 'sticky';
-      sticky.innerHTML = `
-        <div>${text}</div>
-        <div class="sticky-footer">
-          <span style="opacity:0.7;">@you</span>
-          <span class="like-count" data-likes="0">♥ 0</span>
-        </div>
-      `;
-      board.appendChild(sticky);
+// ===== Экран 20–21: повышение узнаваемости =====
+function initProfileAndSticky() {
+  var board = document.getElementById('sticky-board');
+  var input = document.getElementById('sticky-input');
+  var addBtn = document.getElementById('btn-sticky-add');
+
+  // Загрузка стикеров из Supabase
+  function loadStickies() {
+    if (!supabase) return;
+    supabase
+      .from('stickies')
+      .select('*')
+      .eq('screen', 'screen-21')
+      .order('created_at', { ascending: false })
+      .limit(50)
+      .then(function(result) {
+        if (result.error) { console.error(result.error); return; }
+        board.innerHTML = '';
+        result.data.forEach(function(row) {
+          board.appendChild(createStickyEl(row));
+        });
+      });
+  }
+
+  // Создание DOM-элемента стикера
+  function createStickyEl(row) {
+    var sticky = document.createElement('div');
+    sticky.className = 'sticky';
+    sticky.dataset.id = row.id;
+    sticky.innerHTML =
+      '<div>' + escapeHtml(row.text) + '</div>' +
+      '<div class="sticky-footer">' +
+        '<span style="opacity:0.7;">' + escapeHtml(row.author || 'Аноним') + '</span>' +
+        '<span class="like-count" data-likes="' + (row.likes || 0) + '">♥ ' + (row.likes || 0) + '</span>' +
+      '</div>';
+    return sticky;
+  }
+
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  // Добавление стикера
+  addBtn.addEventListener('click', function() {
+    var text = input.value.trim();
+    if (!text) return;
+
+    if (supabase) {
+      supabase
+        .from('stickies')
+        .insert({ screen: 'screen-21', text: text, author: 'Участник', likes: 0 })
+        .select()
+        .then(function(result) {
+          if (result.error) {
+            console.error(result.error);
+            return;
+          }
+          if (result.data && result.data.length > 0) {
+            var el = createStickyEl(result.data[0]);
+            board.insertBefore(el, board.firstChild);
+          }
+          addVisibility(1);
+          input.value = '';
+        });
+    } else {
+      // Fallback без Supabase
+      var fallback = { id: Date.now(), text: text, author: 'Ты', likes: 0 };
+      board.insertBefore(createStickyEl(fallback), board.firstChild);
       addVisibility(1);
       input.value = '';
+    }
+  });
+
+  // Лайки
+  board.addEventListener('click', function(e) {
+    var target = e.target.closest('.like-count');
+    if (!target) return;
+    var sticky = target.closest('.sticky');
+    var id = sticky ? sticky.dataset.id : null;
+    var likes = parseInt(target.dataset.likes || '0', 10) + 1;
+
+    target.dataset.likes = String(likes);
+    target.textContent = '♥ ' + likes;
+
+    if (supabase && id) {
+      supabase
+        .from('stickies')
+        .update({ likes: likes })
+        .eq('id', id)
+        .then(function(result) {
+          if (result.error) console.error(result.error);
+        });
+    }
+  });
+
+  // Realtime подписка — новые стикеры появляются у всех
+  if (supabase) {
+    supabase
+      .channel('stickies-realtime')
+      .on('postgres_changes', {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'stickies',
+        filter: 'screen=eq.screen-21'
+      }, function(payload) {
+        // Не дублируем если уже есть
+        if (board.querySelector('[data-id="' + payload.new.id + '"]')) return;
+        board.insertBefore(createStickyEl(payload.new), board.firstChild);
+      })
+      .on('postgres_changes', {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'stickies'
+      }, function(payload) {
+        var el = board.querySelector('[data-id="' + payload.new.id + '"]');
+        if (!el) return;
+        var lc = el.querySelector('.like-count');
+        if (lc) {
+          lc.dataset.likes = String(payload.new.likes);
+          lc.textContent = '♥ ' + payload.new.likes;
+        }
+      })
+      .subscribe();
+
+    // Загружаем при открытии экрана
+    var obs = new MutationObserver(function() {
+      if (document.getElementById('screen-21').classList.contains('active')) {
+        loadStickies();
+      }
+    });
+    obs.observe(document.getElementById('screen-container'), {
+      attributes: true, subtree: true, attributeFilter: ['class']
     });
 
-    board.addEventListener('click', e => {
-      const target = e.target.closest('.like-count');
-      if (!target) return;
-      let likes = parseInt(target.dataset.likes || '0', 10);
-      likes++;
-      target.dataset.likes = String(likes);
-      target.textContent = `♥ ${likes}`;
-    });
+    loadStickies();
   }
+}
  // ===== Экран 21-1: сумочка нетворкера =====
   function initBag() {
     var items = [
